@@ -10,7 +10,7 @@ type GoogleClient struct {
 }
 
 func(g *GoogleClient) newClient(factory *googleClientFactory)(*GoogleClient){
-	parentClient := factory.clientFactory.NewClient(factory.clientFactory)
+	parentClient := factory.clientFactory.NewClient()
 	return &GoogleClient{parentClient}
 }
 
