@@ -2,9 +2,13 @@
 
 #### How to new a client
 ```
+u, _ := url.Parse("http://www.google.com")
 builder := (*client.CBuilder)(nil).NewBuilder()
-builder.BaseUrl = "http://www.google.com"
+builder.BaseUrl = u
 client := builder.Build().NewClient()
+
+resposne, _ := client.Get("/").Execute()
+fmt.Println("reponse body", resposne.Payload)
 ```
 
 #### Http Client, support following method
