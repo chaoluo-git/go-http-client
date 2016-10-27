@@ -7,7 +7,6 @@ Post
 Delete
 Put
 ....
-
 2. Easy to add path param, header
 ```
 client.Post("/subPath", "/thirdPath").Header("User-Agent", "My-Client").AddParam("Param", "Value").Execute()
@@ -37,4 +36,5 @@ if error != nil {
 entity  := <struct{}>
 client.Post().JsonEntity(<struct{}>).ExecuteForEntity(&entity)
 ```
-
+7. Support client authorizaiton header provider
+there is simpleAuthroziaitonProvider for eample
