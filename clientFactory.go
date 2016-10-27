@@ -24,6 +24,10 @@ func(cf *CClientFactory) newCClientFactory(builder *CBuilder)(*CClientFactory) {
 	return clientFactory
 }
 
+func(cf *CClientFactory) NewClient(clientFactory *CClientFactory)(*CClient) {
+	return (*CClient)(nil).newClient(clientFactory)
+}
+
 
 type CBuilder struct {
 	BaseUrl *url.URL

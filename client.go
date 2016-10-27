@@ -17,7 +17,7 @@ type CClient struct {
 }
 
 
-func(cli *CClient) NewClient(clientFactory *CClientFactory)(*CClient) {
+func(cli *CClient) newClient(clientFactory *CClientFactory)(*CClient) {
 	client := &CClient{}
 	client.url = clientFactory.baseUrl
 	client.client = clientFactory.client
