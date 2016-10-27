@@ -9,13 +9,16 @@ Put
 ....
 
 2. Easy to add path param, header
+
 `client.Post("/path", "/subPath", "/thirdPath").Header("User-Agent", "My-Client").AddParam("Param", "ParamValue").Execute()`
 
 3. Support Json Entity
+
 `client.Post().JsonEntity(<struct{}>).Execute()`
 
 4. Easy to debug
 Request&Response are easy to check
+
 ```
 request url >>>>> https://www.google.com?key=valu
 request header >>>>> map[User-Agent:[my-client]]
@@ -24,6 +27,7 @@ response header <<<<< map[Cache-Control:[private, max-age=0] Content-Type:[text/
 response body <<<<< <!
 ```
 5. Get reponse body
+
 ```golang
 respone, error := client.GET().Execute()
 if error != nil {
@@ -32,6 +36,7 @@ if error != nil {
 ```
 
 6. Response to Entity
+
 ```golang
 entity  := <struct{}>
 client.Post().JsonEntity(<struct{}>).ExecuteForEntity(&entity)
