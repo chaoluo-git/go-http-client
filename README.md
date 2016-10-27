@@ -10,7 +10,7 @@ Put
 
 2. Easy to add path param, header
 
-`client.Post("/path", "/subPath", "/thirdPath").Header("User-Agent", "My-Client").AddParam("Param", "ParamValue").Execute()`
+`client.Post("/subPath", "/thirdPath").Header("User-Agent", "My-Client").AddParam("Param", "Value").Execute()`
 
 3. Support Json Entity
 
