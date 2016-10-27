@@ -1,5 +1,11 @@
 # go-http-client
 
+#### How to new a client
+```
+builder := (*client.CBuilder)(nil).NewBuilder()
+builder.BaseUrl = "http://www.google.com"
+client := builder.Build().NewClient()
+```
 
 #### Http Client, support following method
 Get
