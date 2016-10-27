@@ -1,21 +1,23 @@
 package googleClient
 
 import (
-	"net/http"
-	"go-client/client"
+	"go-http-client"
 )
 
 
-type googleClient struct {
+type GoogleClient struct {
 	*client.CClient
 }
 
-func(g *googleClient) newClient(factory *googleClientFactory)(*googleClient){
+func(g *GoogleClient) newClient(factory *googleClientFactory)(*GoogleClient){
 	parentClient := (*client.CClient)(nil).NewClient(factory.clientFactory)
-	return &googleClient{parentClient}
+	return &GoogleClient{parentClient}
 }
 
 
-func(g *googleClient) GetGoogle()(*http.Response, error) {
-	return g.Get().Execute()
+func(g *GoogleClient) GetGoogle()(*client.CResponse, error) {
+	request := g.Get()
+	request.Header("User-Agent", "my-client")
+	request.AddParam("key", "value")
+	return request.Execute()
 }

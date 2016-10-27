@@ -9,26 +9,38 @@ import (
 	"io"
 	"io/ioutil"
 	"bytes"
+	"go-http-client/entityMapper"
 )
 
 type CRequest struct {
 	client *CClient
 	request *http.Request
 	uriBuilder *url.URL
+	entityMapper entityMapper.EntityMapper
 }
 
 
-func(r *CRequest) Execute()(*http.Response, error) {
+func(r *CRequest) Execute()(*CResponse, error) {
 	request, error := r.httpRequest()
 	if error != nil {
 		return nil, error
 	}
-	return r.client.execute(request)
+	response, error := r.client.execute(request)
+	if error != nil {
+		return nil, error
+	}
+	response.EntityMapper = r.client.entityMapper
+	return response, nil
 }
 
-//func(this *CRequest) ExecuteForEntity(v interface{})(error) {
-//	response, nil := this.Execute()
-//}
+// this is just for test
+func(r *CRequest) ExecuteForEntity(v interface{})(error) {
+	response, error := r.Execute()
+	if error != nil {
+		return error
+	}
+	return response.ForEntity(&v)
+}
 
 func(r *CRequest) httpRequest()(*http.Request, error) {
 	uri := r.uriBuilder

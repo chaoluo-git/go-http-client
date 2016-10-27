@@ -3,18 +3,19 @@ package client
 import (
 	"net/url"
 	"net/http"
-	"go-client/client/authorizationProvider"
+	"go-http-client/authorizationProvider"
+	"go-http-client/entityMapper"
 )
 
 type CClientFactory struct {
 	client *http.Client
 	baseUrl *url.URL
 	authorizationProvider authorizationProvider.AuthorizationProvider
-	entityMapper EntityMapper
+	entityMapper entityMapper.EntityMapper
 }
 
 
-func(f *CClientFactory) newCClientFactory(builder *CBuilder)(*CClientFactory) {
+func(cf *CClientFactory) newCClientFactory(builder *CBuilder)(*CClientFactory) {
 	clientFactory := &CClientFactory{}
 	clientFactory.client = &http.Client{}
 	clientFactory.baseUrl = builder.BaseUrl
@@ -27,15 +28,15 @@ func(f *CClientFactory) newCClientFactory(builder *CBuilder)(*CClientFactory) {
 type CBuilder struct {
 	BaseUrl *url.URL
 	AuthorizationProvider authorizationProvider.AuthorizationProvider
-	EntityMapper EntityMapper
+	EntityMapper entityMapper.EntityMapper
 }
 
 func(builder *CBuilder) NewBuilder()(*CBuilder) {
-	jsonMapper := JsonMapper{}
+	jsonMapper := entityMapper.JsonMapper{}
 	return &CBuilder{EntityMapper: jsonMapper}
 }
 
-func(builder *CBuilder) Builder()(*CClientFactory) {
+func(builder *CBuilder) Build()(*CClientFactory) {
 	return (*CClientFactory)(nil).newCClientFactory(builder)
 }
 

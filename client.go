@@ -4,14 +4,16 @@ import (
 	"net/http"
 	"net/url"
 	"fmt"
-	"go-client/client/authorizationProvider"
+	"io/ioutil"
+	"go-http-client/authorizationProvider"
+	"go-http-client/entityMapper"
 )
 
 type CClient struct {
 	client *http.Client
 	url    *url.URL
 	authorizationProvider authorizationProvider.AuthorizationProvider
-	entityMapper EntityMapper
+	entityMapper entityMapper.EntityMapper
 }
 
 
@@ -52,13 +54,36 @@ func (cli *CClient) Put(path ...string)(*CRequest) {
 	return cli.newPutRequest(path...)
 }
 
-func (cli *CClient) execute(request *http.Request)(*http.Response, error) {
-	fmt.Println("url", request.URL.String())
-
+func (cli *CClient) execute(request *http.Request)(*CResponse, error) {
+	cResponse := &CResponse{}
 	if cli.authorizationProvider != nil {
 		request.Header.Set("Authorization", cli.authorizationProvider.GetAuthorization())
 	}
-	return cli.client.Do(request)
+	fmt.Println("request url >>>>>", request.URL.String())
+	//buf := new(bytes.Buffer)
+	//buf.ReadFrom(request.Body)
+	//s := buf.String()
+	//fmt.Println("request body >>>>>", s)
+	fmt.Println("request header >>>>>", request.Header)
+
+	response, error := cli.client.Do(request)
+	cResponse.Response = response
+
+
+	if error != nil {
+		fmt.Println("response error <<<<<", error.Error())
+		return cResponse, error
+	}
+	fmt.Println("response status code <<<<<", cResponse.StatusCode)
+	body, error := ioutil.ReadAll(cResponse.Body)
+	if error != nil {
+		fmt.Println("response error <<<<<", error.Error())
+		return cResponse, error
+	}
+	cResponse.Payload = string(body)
+	fmt.Println("response header <<<<<", response.Header)
+	fmt.Println("response body <<<<<", cResponse.Payload)
+	return cResponse, nil
 }
 
 func (cli *CClient) newGetRequest(path ...string)(*CRequest) {

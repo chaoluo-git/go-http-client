@@ -1,4 +1,4 @@
-package client
+package entityMapper
 
 import "encoding/json"
 

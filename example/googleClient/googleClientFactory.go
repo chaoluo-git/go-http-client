@@ -1,18 +1,18 @@
 package googleClient
 
-import "go-client/client"
+import "go-http-client"
 
 type googleClientFactory struct {
 	clientFactory *client.CClientFactory
 }
 
 func(gf *googleClientFactory) newGoogleClientFactory(builder *googleClientFactoryBuilder)(*googleClientFactory) {
-	parentClientFactory := builder.CBuilder.Builder()
+	parentClientFactory := builder.CBuilder.Build()
 	return &googleClientFactory{parentClientFactory}
 }
 
-func(gf *googleClientFactory) newGoogleClient() (*googleClient) {
-	return ((*googleClient)(nil)).newClient(gf)
+func(gf *googleClientFactory) newGoogleClient() (*GoogleClient) {
+	return ((*GoogleClient)(nil)).newClient(gf)
 }
 
 
@@ -26,7 +26,7 @@ func(gfBuilder *googleClientFactoryBuilder) NewBuilder() (builder *googleClientF
 	return
 }
 
-func(gfBuilder *googleClientFactoryBuilder) Builder() (factory *googleClientFactory) {
+func(gfBuilder *googleClientFactoryBuilder) Build() (factory *googleClientFactory) {
 	factory = ((*googleClientFactory)(nil)).newGoogleClientFactory(gfBuilder)
 	return
 }
